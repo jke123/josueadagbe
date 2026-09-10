@@ -14,8 +14,9 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 # Copier le projet
 COPY . /var/www/html/
 
-# Permissions pour uploads
-RUN chown -R www-data:www-data /var/www/html/public/uploads && \
+# Créer les dossiers d'upload s'ils n'existent pas + permissions
+RUN mkdir -p /var/www/html/public/uploads/projects && \
+    chown -R www-data:www-data /var/www/html/public/uploads && \
     chmod -R 755 /var/www/html/public/uploads
 
 EXPOSE 80
