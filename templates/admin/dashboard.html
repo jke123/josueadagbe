@@ -1,0 +1,24 @@
+{% extends "admin/base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-8">Tableau de bord</h1>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+    <div class="bg-white dark:bg-gray-800 p-6 rounded shadow">
+        <p class="text-sm text-gray-500">Projets</p>
+        <p class="text-3xl font-bold">{{ stats.projects }}</p>
+    </div>
+    <div class="bg-white dark:bg-gray-800 p-6 rounded shadow">
+        <p class="text-sm text-gray-500">Services</p>
+        <p class="text-3xl font-bold">{{ stats.services }}</p>
+    </div>
+    <div class="bg-white dark:bg-gray-800 p-6 rounded shadow">
+        <p class="text-sm text-gray-500">Compétences</p>
+        <p class="text-3xl font-bold">{{ stats.skills }}</p>
+    </div>
+    <div class="bg-white dark:bg-gray-800 p-6 rounded shadow">
+        <p class="text-sm text-gray-500">Messages non lus</p>
+        <p class="text-3xl font-bold">{{ stats.messages }}</p>
+    </div>
+</div>
+{% endblock %}

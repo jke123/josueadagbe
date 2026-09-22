@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Admin{% endblock %} — Josué Adagbe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900">
+
+{% if current_user.is_authenticated %}
+<nav class="bg-gray-900 text-white">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+        <a href="/admin/" class="font-bold">Admin — Josué Adagbe</a>
+        <ul class="flex gap-4 text-sm">
+            <li><a href="/admin/" class="hover:text-primary">Dashboard</a></li>
+            <li><a href="/admin/projects" class="hover:text-primary">Projets</a></li>
+            <li><a href="/admin/services" class="hover:text-primary">Services</a></li>
+            <li><a href="/admin/skills" class="hover:text-primary">Compétences</a></li>
+            <li><a href="/admin/experiences" class="hover:text-primary">Expériences</a></li>
+            <li><a href="/admin/messages" class="hover:text-primary">Messages</a></li>
+            <li><a href="/admin/logout" class="text-red-400 hover:text-red-300">Déconnexion</a></li>
+        </ul>
+    </div>
+</nav>
+{% endif %}
+
+<main class="max-w-6xl mx-auto p-6">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="mb-4 px-4 py-2 rounded {% if category == 'error' %}bg-red-100 text-red-800{% else %}bg-green-100 text-green-800{% endif %}">
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+</main>
+
+</body>
+</html>

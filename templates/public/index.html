@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- HERO -->
+<section id="hero" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary to-secondary text-white px-4">
+    <div class="text-center max-w-3xl">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">
+            {{ hero.title if hero else "Bienvenue" }}
+        </h1>
+        {% if hero and hero.subtitle %}
+        <p class="text-xl md:text-2xl opacity-90 mb-4">{{ hero.subtitle }}</p>
+        {% endif %}
+        {% if hero and hero.description %}
+        <p class="text-base opacity-80 mb-8">{{ hero.description }}</p>
+        {% endif %}
+        <a href="#contact" class="inline-block bg-white text-primary font-semibold px-8 py-3 rounded-lg hover:bg-gray-100 transition">
+            Me contacter
+        </a>
+    </div>
+</section>
+
+<!-- PROJETS -->
+<section id="projects" class="py-20 px-4 max-w-6xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Mes Projets</h2>
+    {% if projects %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for project in projects %}
+        <article class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition">
+            {% if project.image_url %}
+            <img src="{{ project.image_url }}" alt="{{ project.title }}" class="w-full h-48 object-cover">
+            {% endif %}
+            <div class="p-5">
+                <h3 class="text-xl font-bold mb-2">{{ project.title }}</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">{{ project.description }}</p>
+                {% if project.technologies %}
+                <div class="flex flex-wrap gap-2 mb-4">
+                    {% for tech in project.technologies %}
+                    <span class="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">{{ tech }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <div class="flex gap-3 text-sm">
+                    {% if project.demo_url %}
+                    <a href="{{ project.demo_url }}" target="_blank" class="text-primary hover:underline">Démo →</a>
+                    {% endif %}
+                    {% if project.code_url %}
+                    <a href="{{ project.code_url }}" target="_blank" class="text-primary hover:underline">Code →</a>
+                    {% endif %}
+                </div>
+            </div>
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-center text-gray-500">Aucun projet pour le moment.</p>
+    {% endif %}
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="py-20 px-4 bg-gray-50 dark:bg-gray-950">
+    <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Mes Services</h2>
+        {% if services %}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {% for service in services %}
+            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow text-center">
+                <div class="text-4xl mb-4">{{ service.icon or '🚀' }}</div>
+                <h3 class="text-xl font-bold mb-2">{{ service.title }}</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">{{ service.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-center text-gray-500">Aucun service pour le moment.</p>
+        {% endif %}
+    </div>
+</section>
+
+<!-- COMPÉTENCES -->
+<section id="skills" class="py-20 px-4 max-w-4xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Compétences</h2>
+    {% if skills %}
+    <div class="space-y-6">
+        {% for skill in skills %}
+        <div>
+            <div class="flex justify-between mb-1 text-sm">
+                <span>{{ skill.name }}</span>
+                <span>{{ skill.level }}%</span>
+            </div>
+            <div class="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-2">
+                <div class="bg-primary h-2 rounded-full" style="width: {{ skill.level }}%"></div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="text-center text-gray-500">Aucune compétence pour le moment.</p>
+    {% endif %}
+</section>
+
+<!-- EXPÉRIENCE -->
+<section id="experience" class="py-20 px-4 bg-gray-50 dark:bg-gray-950">
+    <div class="max-w-4xl mx-auto">
+        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Expérience</h2>
+        {% if experiences %}
+        <div class="space-y-6">
+            {% for exp in experiences %}
+            <div class="border-l-4 border-primary pl-6">
+                <p class="text-sm text-primary font-semibold">
+                    {{ exp.start_date.strftime('%b %Y') if exp.start_date }}
+                    — {{ 'Présent' if exp.is_current else (exp.end_date.strftime('%b %Y') if exp.end_date else '') }}
+                </p>
+                <h3 class="text-lg font-bold">{{ exp.title }}</h3>
+                <p class="text-sm text-gray-600 dark:text-gray-400">{{ exp.company }}{% if exp.location %} · {{ exp.location }}{% endif %}</p>
+                {% if exp.description %}
+                <p class="mt-2 text-sm">{{ exp.description }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-center text-gray-500">Aucune expérience pour le moment.</p>
+        {% endif %}
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="py-20 px-4 max-w-5xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Contact</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+        <div class="space-y-4">
+            {% if contact %}
+                {% if contact.email %}<p>📧 {{ contact.email }}</p>{% endif %}
+                {% if contact.phone %}<p>📱 {{ contact.phone }}</p>{% endif %}
+                {% if contact.address %}<p>📍 {{ contact.address }}</p>{% endif %}
+                <div class="flex gap-4 pt-4">
+                    {% if contact.linkedin %}<a href="{{ contact.linkedin }}" class="text-primary hover:underline">LinkedIn</a>{% endif %}
+                    {% if contact.github %}<a href="{{ contact.github }}" class="text-primary hover:underline">GitHub</a>{% endif %}
+                    {% if contact.twitter %}<a href="{{ contact.twitter }}" class="text-primary hover:underline">Twitter</a>{% endif %}
+                </div>
+            {% endif %}
+        </div>
+        <form action="/contact" method="POST" class="space-y-4">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="text" name="name" placeholder="Nom" required
+                class="w-full px-4 py-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800">
+            <input type="email" name="email" placeholder="Email" required
+                class="w-full px-4 py-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800">
+            <input type="text" name="subject" placeholder="Sujet"
+                class="w-full px-4 py-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800">
+            <textarea name="message" placeholder="Message" rows="5" required
+                class="w-full px-4 py-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"></textarea>
+            <button type="submit"
+                class="w-full bg-primary text-white font-semibold py-3 rounded hover:bg-secondary transition">
+                Envoyer
+            </button>
+        </form>
+    </div>
+</section>
+
+{% endblock %}

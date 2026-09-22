@@ -1,0 +1,8 @@
+/* Petit complément au CDN Tailwind */
+html { scroll-behavior: smooth; }
+
+.flash-success { animation: fadeout 4s forwards; }
+@keyframes fadeout {
+    0%, 80% { opacity: 1; }
+    100% { opacity: 0; }
+}
