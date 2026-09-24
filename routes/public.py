@@ -18,7 +18,7 @@ def index():
         skills=skills, experiences=experiences, contact=contact,
     )
 
-@public_bp.route("/contact", methods=["POST"])
+@public_bp.route("/contact", methods=['GET', "POST"])
 def contact_submit():
     name = request.form.get("name")
     email = request.form.get("email")
