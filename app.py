@@ -3,7 +3,7 @@ from config import Config
 from extensions import db, migrate, login_manager, csrf
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, template_folder='public')
     app.config.from_object(Config)
 
     # Init extensions
@@ -40,4 +40,4 @@ def create_app():
 app = create_app()
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
