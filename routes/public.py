@@ -13,7 +13,7 @@ def index():
     experiences = Experience.query.order_by(Experience.start_date.desc()).all()
     contact = ContactInfo.query.first()
     return render_template(
-        "index.html",
+        "public/index.html",
         hero=hero, projects=projects, services=services,
         skills=skills, experiences=experiences, contact=contact,
     )
