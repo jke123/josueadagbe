@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask import Blueprint, render_template, request, flash, redirect, url_for, Response
 from models import Hero, Project, Service, Skill, Experience, ContactInfo, Message
 from extensions import db
 
@@ -18,7 +18,7 @@ def index():
         skills=skills, experiences=experiences, contact=contact,
     )
 
-@public_bp.route("/contact", methods=['GET', "POST"])
+@public_bp.route("/contact", methods=["POST"])
 def contact_submit():
     name = request.form.get("name")
     email = request.form.get("email")
@@ -34,3 +34,14 @@ def contact_submit():
     db.session.commit()
     flash("Message envoyé avec succès !", "success")
     return redirect(url_for("public.index") + "#contact")
+
+
+@public_bp.route("/sitemap.xml")
+def sitemap():
+    pages = [url_for("public.index", _external=True)]
+    xml = ['<?xml version="1.0" encoding="UTF-8"?>',
+           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
+    for page in pages:
+        xml.append(f"<url><loc>{page}</loc></url>")
+    xml.append("</urlset>")
+    return Response("\n".join(xml), mimetype="application/xml")

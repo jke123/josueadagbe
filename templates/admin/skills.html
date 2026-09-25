@@ -1,0 +1,51 @@
+{% extends "admin/base.html" %}
+{% block title %}Compétences{% endblock %}
+
+{% block content %}
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">Compétences</h1>
+    <a href="{{ url_for('admin.skill_new') }}"
+       class="bg-primary text-white px-4 py-2 rounded hover:bg-secondary">+ Nouvelle compétence</a>
+</div>
+
+{% if skills %}
+<div class="bg-white dark:bg-gray-800 rounded shadow overflow-hidden">
+    <table class="w-full text-sm">
+        <thead class="bg-gray-100 dark:bg-gray-900">
+            <tr>
+                <th class="text-left p-3">Nom</th>
+                <th class="text-left p-3">Catégorie</th>
+                <th class="text-left p-3">Niveau</th>
+                <th class="text-right p-3">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for s in skills %}
+            <tr class="border-t dark:border-gray-700">
+                <td class="p-3 font-medium">{{ s.name }}</td>
+                <td class="p-3">{{ s.category or '—' }}</td>
+                <td class="p-3">
+                    <div class="flex items-center gap-2">
+                        <div class="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                            <div class="bg-primary h-2 rounded-full" style="width: {{ s.level }}%"></div>
+                        </div>
+                        <span>{{ s.level }}%</span>
+                    </div>
+                </td>
+                <td class="p-3 text-right space-x-2">
+                    <a href="{{ url_for('admin.skill_edit', id=s.id) }}" class="text-primary hover:underline">Modifier</a>
+                    <form method="POST" action="{{ url_for('admin.skill_delete', id=s.id) }}"
+                          class="inline" onsubmit="return confirm('Supprimer ?')">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="text-red-500 hover:underline">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p class="text-gray-500">Aucune compétence.</p>
+{% endif %}
+{% endblock %}

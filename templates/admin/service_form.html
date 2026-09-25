@@ -1,0 +1,41 @@
+{% extends "admin/base.html" %}
+{% block title %}{{ 'Modifier' if service else 'Nouveau' }} service{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-8">{{ 'Modifier' if service else 'Nouveau' }} service</h1>
+
+<form method="POST" class="bg-white dark:bg-gray-800 p-6 rounded shadow space-y-4 max-w-2xl">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div>
+        <label class="block text-sm font-medium mb-1">Titre *</label>
+        <input type="text" name="title" required value="{{ service.title if service else '' }}"
+               class="w-full px-4 py-2 rounded border dark:bg-gray-900 dark:border-gray-700">
+    </div>
+
+    <div>
+        <label class="block text-sm font-medium mb-1">Description</label>
+        <textarea name="description" rows="4"
+                  class="w-full px-4 py-2 rounded border dark:bg-gray-900 dark:border-gray-700">{{ service.description if service else '' }}</textarea>
+    </div>
+
+    <div>
+        <label class="block text-sm font-medium mb-1">Icône (emoji ou nom)</label>
+        <input type="text" name="icon" value="{{ service.icon if service else '' }}"
+               placeholder="🚀" class="w-full px-4 py-2 rounded border dark:bg-gray-900 dark:border-gray-700">
+    </div>
+
+    <div>
+        <label class="block text-sm font-medium mb-1">Position</label>
+        <input type="number" name="position" value="{{ service.position if service else 0 }}"
+               class="w-24 px-4 py-2 rounded border dark:bg-gray-900 dark:border-gray-700">
+    </div>
+
+    <div class="flex gap-3 pt-4">
+        <button type="submit" class="bg-primary text-white px-6 py-2 rounded hover:bg-secondary">
+            {{ 'Mettre à jour' if service else 'Créer' }}
+        </button>
+        <a href="{{ url_for('admin.services_list') }}" class="px-6 py-2 rounded border">Annuler</a>
+    </div>
+</form>
+{% endblock %}

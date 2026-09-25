@@ -1,0 +1,44 @@
+{% extends "admin/base.html" %}
+{% block title %}Messages{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-8">Boîte de réception</h1>
+
+{% if messages %}
+<div class="space-y-3">
+    {% for m in messages %}
+    <div class="bg-white dark:bg-gray-800 p-4 rounded shadow border-l-4
+        {% if m.status == 'unread' %}border-primary{% else %}border-gray-300 dark:border-gray-700{% endif %}">
+        <div class="flex justify-between items-start">
+            <div>
+                <p class="font-semibold">
+                    {{ m.name }} <span class="text-gray-500 text-sm">&lt;{{ m.email }}&gt;</span>
+                    {% if m.status == 'unread' %}
+                    <span class="text-xs bg-primary text-white px-2 py-0.5 rounded ml-2">Nouveau</span>
+                    {% endif %}
+                </p>
+                <p class="text-sm text-gray-600 dark:text-gray-400">{{ m.subject or 'Sans sujet' }}</p>
+                <p class="mt-2 text-sm">{{ m.message }}</p>
+                <p class="text-xs text-gray-400 mt-2">{{ m.created_at.strftime('%d/%m/%Y %H:%M') }}</p>
+            </div>
+            <div class="flex flex-col gap-2">
+                {% if m.status == 'unread' %}
+                <form method="POST" action="{{ url_for('admin.message_mark_read', id=m.id) }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="text-xs text-primary hover:underline">Marquer lu</button>
+                </form>
+                {% endif %}
+                <form method="POST" action="{{ url_for('admin.message_delete', id=m.id) }}"
+                      onsubmit="return confirm('Supprimer ce message ?')">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <button type="submit" class="text-xs text-red-500 hover:underline">Supprimer</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="text-gray-500">Aucun message.</p>
+{% endif %}
+{% endblock %}

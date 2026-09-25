@@ -1,0 +1,42 @@
+{% extends "admin/base.html" %}
+{% block title %}Hero{% endblock %}
+
+{% block content %}
+<h1 class="text-3xl font-bold mb-8">Section Hero</h1>
+
+<form method="POST" enctype="multipart/form-data"
+      class="bg-white dark:bg-gray-800 p-6 rounded shadow space-y-4 max-w-2xl">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+    <div>
+        <label class="block text-sm font-medium mb-1">Titre</label>
+        <input type="text" name="title" value="{{ hero.title or '' }}" required
+               class="w-full px-4 py-2 rounded border dark:bg-gray-900 dark:border-gray-700">
+    </div>
+
+    <div>
+        <label class="block text-sm font-medium mb-1">Sous-titre</label>
+        <input type="text" name="subtitle" value="{{ hero.subtitle or '' }}"
+               class="w-full px-4 py-2 rounded border dark:bg-gray-900 dark:border-gray-700">
+    </div>
+
+    <div>
+        <label class="block text-sm font-medium mb-1">Description</label>
+        <textarea name="description" rows="4"
+                  class="w-full px-4 py-2 rounded border dark:bg-gray-900 dark:border-gray-700">{{ hero.description or '' }}</textarea>
+    </div>
+
+    <div>
+        <label class="block text-sm font-medium mb-1">Image de fond</label>
+        {% if hero.background_image %}
+        <img src="{{ hero.background_image }}" class="w-40 h-24 object-cover rounded mb-2">
+        {% endif %}
+        <input type="file" name="background_image" accept="image/*"
+               class="w-full px-4 py-2 rounded border dark:bg-gray-900 dark:border-gray-700">
+    </div>
+
+    <button type="submit" class="bg-primary text-white px-6 py-2 rounded hover:bg-secondary">
+        Enregistrer
+    </button>
+</form>
+{% endblock %}

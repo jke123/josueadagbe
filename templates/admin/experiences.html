@@ -1,0 +1,47 @@
+{% extends "admin/base.html" %}
+{% block title %}Expériences{% endblock %}
+
+{% block content %}
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">Expériences</h1>
+    <a href="{{ url_for('admin.experience_new') }}"
+       class="bg-primary text-white px-4 py-2 rounded hover:bg-secondary">+ Nouvelle expérience</a>
+</div>
+
+{% if experiences %}
+<div class="bg-white dark:bg-gray-800 rounded shadow overflow-hidden">
+    <table class="w-full text-sm">
+        <thead class="bg-gray-100 dark:bg-gray-900">
+            <tr>
+                <th class="text-left p-3">Poste</th>
+                <th class="text-left p-3">Entreprise</th>
+                <th class="text-left p-3">Période</th>
+                <th class="text-right p-3">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for e in experiences %}
+            <tr class="border-t dark:border-gray-700">
+                <td class="p-3 font-medium">{{ e.title }}</td>
+                <td class="p-3">{{ e.company or '—' }}</td>
+                <td class="p-3">
+                    {{ e.start_date.strftime('%m/%Y') if e.start_date }}
+                    — {{ 'Présent' if e.is_current else (e.end_date.strftime('%m/%Y') if e.end_date else '—') }}
+                </td>
+                <td class="p-3 text-right space-x-2">
+                    <a href="{{ url_for('admin.experience_edit', id=e.id) }}" class="text-primary hover:underline">Modifier</a>
+                    <form method="POST" action="{{ url_for('admin.experience_delete', id=e.id) }}"
+                          class="inline" onsubmit="return confirm('Supprimer ?')">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="text-red-500 hover:underline">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p class="text-gray-500">Aucune expérience.</p>
+{% endif %}
+{% endblock %}

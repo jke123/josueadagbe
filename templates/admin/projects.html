@@ -1,0 +1,51 @@
+{% extends "admin/base.html" %}
+{% block title %}Projets{% endblock %}
+
+{% block content %}
+<div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">Projets</h1>
+    <a href="{{ url_for('admin.project_new') }}"
+       class="bg-primary text-white px-4 py-2 rounded hover:bg-secondary">+ Nouveau projet</a>
+</div>
+
+{% if projects %}
+<div class="bg-white dark:bg-gray-800 rounded shadow overflow-hidden">
+    <table class="w-full text-sm">
+        <thead class="bg-gray-100 dark:bg-gray-900">
+            <tr>
+                <th class="text-left p-3">Image</th>
+                <th class="text-left p-3">Titre</th>
+                <th class="text-left p-3">Technologies</th>
+                <th class="text-left p-3">Position</th>
+                <th class="text-right p-3">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in projects %}
+            <tr class="border-t dark:border-gray-700">
+                <td class="p-3">
+                    {% if p.image_url %}
+                    <img src="{{ p.image_url }}" class="w-16 h-12 object-cover rounded">
+                    {% else %}<span class="text-gray-400">—</span>{% endif %}
+                </td>
+                <td class="p-3 font-medium">{{ p.title }}</td>
+                <td class="p-3">{{ p.technologies|join(', ') if p.technologies }}</td>
+                <td class="p-3">{{ p.position }}</td>
+                <td class="p-3 text-right space-x-2">
+                    <a href="{{ url_for('admin.project_edit', id=p.id) }}"
+                       class="text-primary hover:underline">Modifier</a>
+                    <form method="POST" action="{{ url_for('admin.project_delete', id=p.id) }}"
+                          class="inline" onsubmit="return confirm('Supprimer ce projet ?')">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="text-red-500 hover:underline">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p class="text-gray-500">Aucun projet. <a href="{{ url_for('admin.project_new') }}" class="text-primary hover:underline">Créer le premier</a>.</p>
+{% endif %}
+{% endblock %}

@@ -2,160 +2,310 @@
 
 {% block content %}
 
-<!-- HERO -->
-<section id="hero" class="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary to-secondary text-white px-4">
-    <div class="text-center max-w-3xl">
-        <h1 class="text-4xl md:text-6xl font-bold mb-4">
-            {{ hero.title if hero else "Bienvenue" }}
-        </h1>
-        {% if hero and hero.subtitle %}
-        <p class="text-xl md:text-2xl opacity-90 mb-4">{{ hero.subtitle }}</p>
-        {% endif %}
-        {% if hero and hero.description %}
-        <p class="text-base opacity-80 mb-8">{{ hero.description }}</p>
-        {% endif %}
-        <a href="#contact" class="inline-block bg-white text-primary font-semibold px-8 py-3 rounded-lg hover:bg-gray-100 transition">
-            Me contacter
-        </a>
-    </div>
-</section>
+{% set icon_svgs = {
+  'code': '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 18l6-6-6-6M8 6l-6 6 6 6"/></svg>',
+  'design': '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l7-7 3 3-7 7-3-3zM18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg>',
+  'support': '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636a9 9 0 010 12.728M5.636 5.636a9 9 0 000 12.728M12 12a3 3 0 100-6 3 3 0 000 6z"/></svg>',
+  'cloud': '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h10a4 4 0 000-8 5 5 0 10-9.6 2H7a4 4 0 00-4 4z"/></svg>',
+  'securite': '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg>',
+  'mobile': '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M11 18h2"/></svg>',
+  'default': '<svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>'
+} %}
 
-<!-- PROJETS -->
-<section id="projects" class="py-20 px-4 max-w-6xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Mes Projets</h2>
-    {% if projects %}
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {% for project in projects %}
-        <article class="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition">
-            {% if project.image_url %}
-            <img src="{{ project.image_url }}" alt="{{ project.title }}" class="w-full h-48 object-cover">
+<!-- ============ HERO ============ -->
+<section id="hero" class="relative min-h-screen flex items-center px-6 pt-24">
+    <div class="max-w-7xl mx-auto w-full grid md:grid-cols-2 gap-12 items-center">
+        <div class="space-y-6 animate-fade-up">
+            <span class="inline-flex items-center gap-2 px-3.5 py-4 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.2L12 16.4 5.7 20.8 8 13.6l-6-4.4h7.6z"/></svg>
+                Bienvenue sur mon portfolio
+            </span>
+            <h1 class="font-sans text-5xl md:text-7xl font-extrabold leading-tight tracking-tight">
+                {{ hero.title if hero else "Salut, moi c'est Josué" }}
+            </h1>
+            {% if hero and hero.subtitle %}
+            <p class="text-xl md:text-2xl bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent font-semibold">
+                {{ hero.subtitle }}
+            </p>
             {% endif %}
-            <div class="p-5">
-                <h3 class="text-xl font-bold mb-2">{{ project.title }}</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">{{ project.description }}</p>
-                {% if project.technologies %}
-                <div class="flex flex-wrap gap-2 mb-4">
-                    {% for tech in project.technologies %}
-                    <span class="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">{{ tech }}</span>
-                    {% endfor %}
-                </div>
-                {% endif %}
-                <div class="flex gap-3 text-sm">
-                    {% if project.demo_url %}
-                    <a href="{{ project.demo_url }}" target="_blank" class="text-primary hover:underline">Démo →</a>
-                    {% endif %}
-                    {% if project.code_url %}
-                    <a href="{{ project.code_url }}" target="_blank" class="text-primary hover:underline">Code →</a>
+            {% if hero and hero.description %}
+            <p class="text-slate-600 dark:text-slate-400 text-lg max-w-lg leading-relaxed">
+                {{ hero.description }}
+            </p>
+            {% endif %}
+            <div class="flex flex-wrap gap-4 pt-4">
+                <a href="#projects"
+                   class="px-7 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-white font-semibold hover:shadow-xl hover:shadow-primary/30 transition transform hover:-translate-y-1">
+                    Voir mes projets
+                </a>
+                <a href="#contact"
+                   class="px-7 py-3 rounded-full border border-slate-900/10 dark:border-white/20 hover:bg-slate-900/5 dark:hover:bg-white/5 transition">
+                    Me contacter
+                </a>
+            </div>
+        </div>
+
+        <!-- Visuel à droite -->
+        <div class="hidden md:flex justify-center items-center animate-float">
+            <div class="relative w-80 h-80">
+                <div class="absolute inset-0 bg-gradient-to-br from-primary to-accent rounded-3xl rotate-6 opacity-20 blur-xl"></div>
+                <div class="relative w-full h-full bg-slate-50 dark:bg-slate-900 border border-slate-900/5 dark:border-white/10 rounded-3xl flex items-center justify-center overflow-hidden">
+                    {% if hero and hero.background_image %}
+                    <img src="{{ hero.background_image }}" alt="Josué Adagbe" class="w-full h-full object-cover">
+                    {% else %}
+                    <span class="font-sans text-7xl font-extrabold bg-gradient-to-br from-primary to-accent bg-clip-text text-transparent">JA</span>
                     {% endif %}
                 </div>
             </div>
-        </article>
-        {% endfor %}
+        </div>
     </div>
-    {% else %}
-    <p class="text-center text-gray-500">Aucun projet pour le moment.</p>
-    {% endif %}
 </section>
 
-<!-- SERVICES -->
-<section id="services" class="py-20 px-4 bg-gray-50 dark:bg-gray-950">
-    <div class="max-w-6xl mx-auto">
-        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Mes Services</h2>
+<!-- ============ PROJETS ============ -->
+<section id="projects" class="py-24 px-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16 reveal">
+            <h2 class="font-sans text-4xl md:text-5xl font-bold mt-3">Mes Projets</h2>
+            <p class="text-slate-500 dark:text-slate-400 mt-4 max-w-2xl mx-auto">Une sélection de mes travaux récents</p>
+        </div>
+
+        {% if projects %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for project in projects %}
+            <article class="group reveal bg-slate-50 dark:bg-slate-900/50 border border-slate-900/5 dark:border-white/5 rounded-2xl overflow-hidden hover:border-primary/40 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary/10">
+                <div class="relative h-52 overflow-hidden bg-slate-100 dark:bg-slate-800">
+                    {% if project.image_url %}
+                    <img src="{{ project.image_url }}" alt="{{ project.title }}"
+                         class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    {% else %}
+                    <div class="w-full h-full flex items-center justify-center text-slate-400">
+                        <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>
+                    </div>
+                    {% endif %}
+                    {% if project.featured %}
+                    <span class="absolute top-3 right-3 inline-flex items-center gap-1 text-xs bg-accent/90 text-white px-3 py-1 rounded-full font-semibold">
+                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l2.4 7.2H22l-6 4.4 2.3 7.2L12 16.4 5.7 20.8 8 13.6l-6-4.4h7.6z"/></svg>
+                        Featured
+                    </span>
+                    {% endif %}
+                </div>
+                <div class="p-6 space-y-3">
+                    <h3 class="font-sans text-xl font-bold group-hover:text-primary transition">{{ project.title }}</h3>
+                    <p class="text-sm text-slate-500 dark:text-slate-400 line-clamp-2">{{ project.description }}</p>
+
+                    {% if project.technologies %}
+                    <div class="flex flex-wrap gap-2 pt-2">
+                        {% for tech in project.technologies %}
+                        <span class="text-xs bg-slate-900/5 dark:bg-white/5 border border-slate-900/10 dark:border-white/10 px-3 py-1 rounded-full">{{ tech }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                    <div class="flex gap-4 pt-4 text-sm font-medium">
+                        {% if project.demo_url %}
+                        <a href="{{ project.demo_url }}" target="_blank" rel="noopener"
+                           class="text-primary hover:text-accent transition flex items-center gap-1">
+                            Démo
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                        </a>
+                        {% endif %}
+                        {% if project.code_url %}
+                        <a href="{{ project.code_url }}" target="_blank" rel="noopener"
+                           class="text-slate-500 dark:text-slate-400 hover:text-primary transition flex items-center gap-1">
+                            Code
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </article>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-center text-slate-400 py-10">Aucun projet pour le moment.</p>
+        {% endif %}
+    </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section id="services" class="py-24 px-6 bg-slate-50 dark:bg-black/30">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16 reveal">
+            <h2 class="font-sans text-4xl md:text-5xl font-bold mt-3">Mes Services</h2>
+        </div>
+
         {% if services %}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
             {% for service in services %}
-            <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow text-center">
-                <div class="text-4xl mb-4">{{ service.icon or '🚀' }}</div>
-                <h3 class="text-xl font-bold mb-2">{{ service.title }}</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400">{{ service.description }}</p>
+            <div class="reveal group p-8 rounded-2xl bg-white dark:bg-slate-900/50 border border-slate-900/5 dark:border-white/5 hover:border-primary/40 transition-all duration-300 hover:-translate-y-2 shadow-sm">
+                <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary/10 to-accent/10 border border-primary/20 flex items-center justify-center text-primary mb-6 group-hover:scale-110 transition">
+                    {{ (icon_svgs.get(service.icon, icon_svgs['default']))|safe }}
+                </div>
+                <h3 class="font-sans text-xl font-bold mb-3">{{ service.title }}</h3>
+                <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">{{ service.description }}</p>
             </div>
             {% endfor %}
         </div>
         {% else %}
-        <p class="text-center text-gray-500">Aucun service pour le moment.</p>
+        <p class="text-center text-slate-400">Aucun service pour le moment.</p>
         {% endif %}
     </div>
 </section>
 
-<!-- COMPÉTENCES -->
-<section id="skills" class="py-20 px-4 max-w-4xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Compétences</h2>
-    {% if skills %}
-    <div class="space-y-6">
-        {% for skill in skills %}
-        <div>
-            <div class="flex justify-between mb-1 text-sm">
-                <span>{{ skill.name }}</span>
-                <span>{{ skill.level }}%</span>
-            </div>
-            <div class="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-2">
-                <div class="bg-primary h-2 rounded-full" style="width: {{ skill.level }}%"></div>
-            </div>
+<!-- ============ COMPÉTENCES ============ -->
+<section id="skills" class="py-24 px-6">
+    <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-16 reveal">
+            <h2 class="font-sans text-4xl md:text-5xl font-bold mt-3">Compétences</h2>
         </div>
-        {% endfor %}
+
+        {% if skills %}
+        <div class="space-y-8 reveal">
+            {% for skill in skills %}
+            <div class="group">
+                <div class="flex justify-between mb-2">
+                    <span class="font-medium">{{ skill.name }}</span>
+                    <span class="text-primary font-semibold">{{ skill.level }}%</span>
+                </div>
+                <div class="w-full bg-slate-900/5 dark:bg-white/5 rounded-full h-2 overflow-hidden">
+                    <div class="h-2 rounded-full bg-gradient-to-r from-primary to-accent transition-all duration-1000"
+                         style="width: {{ skill.level }}%"></div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="text-center text-slate-400">Aucune compétence pour le moment.</p>
+        {% endif %}
     </div>
-    {% else %}
-    <p class="text-center text-gray-500">Aucune compétence pour le moment.</p>
-    {% endif %}
 </section>
 
-<!-- EXPÉRIENCE -->
-<section id="experience" class="py-20 px-4 bg-gray-50 dark:bg-gray-950">
+<!-- ============ EXPÉRIENCE ============ -->
+<section id="experience" class="py-24 px-6 bg-slate-50 dark:bg-black/30">
     <div class="max-w-4xl mx-auto">
-        <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Expérience</h2>
+        <div class="text-center mb-16 reveal">
+            <h2 class="font-sans text-4xl md:text-5xl font-bold mt-3">Expérience</h2>
+        </div>
+
         {% if experiences %}
-        <div class="space-y-6">
-            {% for exp in experiences %}
-            <div class="border-l-4 border-primary pl-6">
-                <p class="text-sm text-primary font-semibold">
-                    {{ exp.start_date.strftime('%b %Y') if exp.start_date }}
-                    — {{ 'Présent' if exp.is_current else (exp.end_date.strftime('%b %Y') if exp.end_date else '') }}
-                </p>
-                <h3 class="text-lg font-bold">{{ exp.title }}</h3>
-                <p class="text-sm text-gray-600 dark:text-gray-400">{{ exp.company }}{% if exp.location %} · {{ exp.location }}{% endif %}</p>
-                {% if exp.description %}
-                <p class="mt-2 text-sm">{{ exp.description }}</p>
+        <div class="relative">
+            <div class="absolute left-4 top-0 bottom-0 w-px bg-gradient-to-b from-primary via-accent to-transparent"></div>
+
+            <div class="space-y-8">
+                {% for exp in experiences %}
+                <div class="relative pl-12 reveal">
+                    <div class="absolute left-0 top-2 w-8 h-8 rounded-full bg-white dark:bg-slate-900 border-2 border-primary flex items-center justify-center">
+                        <div class="w-2 h-2 rounded-full bg-primary"></div>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-900/50 border border-slate-900/5 dark:border-white/5 rounded-2xl p-6 hover:border-primary/40 transition">
+                        <p class="text-sm text-primary font-semibold mb-2">
+                            {{ exp.start_date.strftime('%b %Y') if exp.start_date }}
+                            — {{ 'Présent' if exp.is_current else (exp.end_date.strftime('%b %Y') if exp.end_date else '') }}
+                        </p>
+                        <h3 class="font-sans text-xl font-bold">{{ exp.title }}</h3>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">
+                            {{ exp.company }}{% if exp.location %} · {{ exp.location }}{% endif %}
+                        </p>
+                        {% if exp.description %}
+                        <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">{{ exp.description }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+        <p class="text-center text-slate-400">Aucune expérience pour le moment.</p>
+        {% endif %}
+    </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" class="py-24 px-6">
+    <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-16 reveal">
+            <h2 class="font-sans text-4xl md:text-5xl font-bold mt-3">Contact</h2>
+            <p class="text-slate-500 dark:text-slate-400 mt-4">Une question, un projet ? N'hésitez pas à me contacter.</p>
+        </div>
+
+        <div class="grid md:grid-cols-5 gap-8">
+            <!-- Infos -->
+            <div class="md:col-span-2 space-y-6 reveal">
+                {% if contact %}
+                    {% if contact.email %}
+                    <div class="flex items-start gap-4 p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-900/5 dark:border-white/5">
+                        <div class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div>
+                        <div>
+                            <p class="text-sm text-slate-500">Email</p>
+                            <a href="mailto:{{ contact.email }}" class="font-medium hover:text-primary transition">{{ contact.email }}</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if contact.phone %}
+                    <div class="flex items-start gap-4 p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-900/5 dark:border-white/5">
+                        <div class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h2.28a1 1 0 01.95.68l1.2 3.6a1 1 0 01-.27 1.05L7.6 9.9a12 12 0 006.5 6.5l1.57-1.56a1 1 0 011.05-.27l3.6 1.2a1 1 0 01.68.95V19a2 2 0 01-2 2h-1C9.16 21 3 14.84 3 7V5z"/></svg></div>
+                        <div>
+                            <p class="text-sm text-slate-500">Téléphone</p>
+                            <a href="tel:{{ contact.phone }}" class="font-medium hover:text-primary transition">{{ contact.phone }}</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if contact.address %}
+                    <div class="flex items-start gap-4 p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-900/5 dark:border-white/5">
+                        <div class="text-primary"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+                        <div>
+                            <p class="text-sm text-slate-500">Localisation</p>
+                            <p class="font-medium">{{ contact.address }}</p>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <div class="flex gap-3 pt-2">
+                        {% if contact.github %}
+                        <a href="{{ contact.github }}" target="_blank" rel="noopener"
+                           class="flex-1 text-center py-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-900/5 dark:border-white/5 hover:border-primary/40 hover:bg-white dark:hover:bg-slate-900 transition">
+                            GitHub
+                        </a>
+                        {% endif %}
+                        {% if contact.linkedin %}
+                        <a href="{{ contact.linkedin }}" target="_blank" rel="noopener"
+                           class="flex-1 text-center py-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-900/5 dark:border-white/5 hover:border-primary/40 hover:bg-white dark:hover:bg-slate-900 transition">
+                            LinkedIn
+                        </a>
+                        {% endif %}
+                        {% if contact.twitter %}
+                        <a href="{{ contact.twitter }}" target="_blank" rel="noopener"
+                           class="flex-1 text-center py-3 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-900/5 dark:border-white/5 hover:border-primary/40 hover:bg-white dark:hover:bg-slate-900 transition">
+                            Twitter
+                        </a>
+                        {% endif %}
+                    </div>
                 {% endif %}
             </div>
-            {% endfor %}
-        </div>
-        {% else %}
-        <p class="text-center text-gray-500">Aucune expérience pour le moment.</p>
-        {% endif %}
-    </div>
-</section>
 
-<!-- CONTACT -->
-<section id="contact" class="py-20 px-4 max-w-5xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Contact</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-        <div class="space-y-4">
-            {% if contact %}
-                {% if contact.email %}<p>📧 {{ contact.email }}</p>{% endif %}
-                {% if contact.phone %}<p>📱 {{ contact.phone }}</p>{% endif %}
-                {% if contact.address %}<p>📍 {{ contact.address }}</p>{% endif %}
-                <div class="flex gap-4 pt-4">
-                    {% if contact.linkedin %}<a href="{{ contact.linkedin }}" class="text-primary hover:underline">LinkedIn</a>{% endif %}
-                    {% if contact.github %}<a href="{{ contact.github }}" class="text-primary hover:underline">GitHub</a>{% endif %}
-                    {% if contact.twitter %}<a href="{{ contact.twitter }}" class="text-primary hover:underline">Twitter</a>{% endif %}
+            <!-- Formulaire -->
+            <form action="{{ url_for('public.contact_submit') }}" method="POST" class="md:col-span-3 space-y-4 reveal bg-slate-50 dark:bg-slate-900/50 border border-slate-900/5 dark:border-white/5 rounded-2xl p-8">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="grid md:grid-cols-2 gap-4">
+                    <input type="text" name="name" placeholder="Votre nom" required
+                           class="w-full px-4 py-3 rounded-xl bg-white dark:bg-slate-950 border border-slate-900/10 dark:border-white/10 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition">
+                    <input type="email" name="email" placeholder="Votre email" required
+                           class="w-full px-4 py-3 rounded-xl bg-white dark:bg-slate-950 border border-slate-900/10 dark:border-white/10 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition">
                 </div>
-            {% endif %}
+
+                <input type="text" name="subject" placeholder="Sujet"
+                       class="w-full px-4 py-3 rounded-xl bg-white dark:bg-slate-950 border border-slate-900/10 dark:border-white/10 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition">
+
+                <textarea name="message" placeholder="Votre message" rows="5" required
+                          class="w-full px-4 py-3 rounded-xl bg-white dark:bg-slate-950 border border-slate-900/10 dark:border-white/10 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition resize-none"></textarea>
+
+                <button type="submit"
+                        class="w-full py-3 rounded-xl bg-gradient-to-r from-primary to-accent text-white font-semibold hover:shadow-xl hover:shadow-primary/30 transition transform hover:-translate-y-0.5">
+                    Envoyer le message
+                </button>
+            </form>
         </div>
-        <form action="/contact" method="POST" class="space-y-4">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-            <input type="text" name="name" placeholder="Nom" required
-                class="w-full px-4 py-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800">
-            <input type="email" name="email" placeholder="Email" required
-                class="w-full px-4 py-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800">
-            <input type="text" name="subject" placeholder="Sujet"
-                class="w-full px-4 py-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800">
-            <textarea name="message" placeholder="Message" rows="5" required
-                class="w-full px-4 py-2 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800"></textarea>
-            <button type="submit"
-                class="w-full bg-primary text-white font-semibold py-3 rounded hover:bg-secondary transition">
-                Envoyer
-            </button>
-        </form>
     </div>
 </section>
 

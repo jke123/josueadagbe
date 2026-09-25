@@ -1,8 +1,48 @@
-/* Petit complément au CDN Tailwind */
+/* ===== Base ===== */
 html { scroll-behavior: smooth; }
+body { -webkit-font-smoothing: antialiased; }
 
-.flash-success { animation: fadeout 4s forwards; }
-@keyframes fadeout {
-    0%, 80% { opacity: 1; }
-    100% { opacity: 0; }
+/* Scrollbar custom */
+::-webkit-scrollbar { width: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #2563eb, #7c3aed);
+    border-radius: 10px;
+}
+
+/* ===== Navbar au scroll ===== */
+#navbar { background: transparent; }
+#navbar.scrolled {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+}
+html.dark #navbar.scrolled {
+    background: rgba(2, 6, 23, 0.85);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* ===== Animation reveal au scroll ===== */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===== Limitation ligne description ===== */
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ===== Lien nav actif ===== */
+.nav-link.active {
+    color: #2563eb;
+    font-weight: 600;
 }

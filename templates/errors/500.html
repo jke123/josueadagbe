@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Erreur serveur{% endblock %}
+{% block content %}
+<section class="min-h-screen flex items-center justify-center px-6 text-center">
+    <div>
+        <p class="font-sans text-8xl font-extrabold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">500</p>
+        <h1 class="text-2xl font-bold mt-4">Une erreur est survenue</h1>
+        <p class="text-slate-500 dark:text-slate-400 mt-2">Le problème a été noté, réessaie dans un instant.</p>
+        <a href="{{ url_for('public.index') }}" class="inline-block mt-8 px-6 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-white font-semibold hover:shadow-lg hover:shadow-primary/30 transition">
+            Retour à l'accueil
+        </a>
+    </div>
+</section>
+{% endblock %}

@@ -1,53 +1,118 @@
 <!DOCTYPE html>
-<html lang="fr" class="scroll-smooth">
+<html lang="fr" class="scroll-smooth dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Josué Adagbe — Portfolio{% endblock %}</title>
-    <meta name="description" content="{% block description %}Portfolio de Josué Adagbe{% endblock %}">
+    <meta name="description" content="{% block description %}Portfolio de Josué Adagbe — Développeur web freelance{% endblock %}">
+    <meta name="theme-color" content="#0f172a">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Josué Adagbe — Portfolio">
+    <meta property="og:description" content="Découvrez mes projets, services et compétences.">
+    <meta property="og:type" content="website">
+
+    <!-- Favicon (SVG, monogramme JA, aucun fichier externe requis) -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%232563eb'/%3E%3Cstop offset='1' stop-color='%237c3aed'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='42' font-family='Arial,sans-serif' font-size='28' font-weight='700' fill='white' text-anchor='middle'%3EJA%3C/text%3E%3C/svg%3E">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
             theme: {
                 extend: {
+                    fontFamily: {
+                        sans: ['Manrope', 'sans-serif'],
+                    },
                     colors: {
-                        primary: '#667eea',
-                        secondary: '#764ba2',
-                    }
-                }
-            }
+                        primary: '#2563eb',
+                        'primary-dark': '#1d4ed8',
+                        accent: '#7c3aed',
+                        secondary: '#7c3aed',
+                    },
+                    animation: {
+                        'fade-up': 'fadeUp 0.6s ease-out forwards',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeUp: {
+                            '0%': { opacity: 0, transform: 'translateY(30px)' },
+                            '100%': { opacity: 1, transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-15px)' },
+                        },
+                    },
+                },
+            },
         }
     </script>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-100 transition-colors">
+<body class="bg-slate-950 text-slate-100 font-sans antialiased overflow-x-hidden transition-colors duration-300">
+
+    <!-- Background décoratif -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div class="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 dark:bg-primary/20 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/10 dark:bg-accent/20 rounded-full blur-[120px]"></div>
+    </div>
 
     <!-- NAVBAR -->
-    <nav class="fixed top-0 w-full bg-white/90 dark:bg-gray-900/90 backdrop-blur border-b border-gray-200 dark:border-gray-800 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="/" class="text-xl font-bold text-primary">Josué Adagbe</a>
-            <ul class="hidden md:flex gap-6 text-sm">
-                <li><a href="#hero" class="hover:text-primary">Accueil</a></li>
-                <li><a href="#projects" class="hover:text-primary">Projets</a></li>
-                <li><a href="#services" class="hover:text-primary">Services</a></li>
-                <li><a href="#skills" class="hover:text-primary">Compétences</a></li>
-                <li><a href="#experience" class="hover:text-primary">Expérience</a></li>
-                <li><a href="#contact" class="hover:text-primary">Contact</a></li>
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="/" class="font-display text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                Josué<span class="text-slate-900 dark:text-white"> ADAGBE.</span>
+            </a>
+
+            <!-- Desktop menu -->
+            <ul class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <li><a href="#hero" class="nav-link text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-white transition">Accueil</a></li>
+                <li><a href="#projects" class="nav-link text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-white transition">Projets</a></li>
+                <li><a href="#services" class="nav-link text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-white transition">Services</a></li>
+                <li><a href="#skills" class="nav-link text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-white transition">Compétences</a></li>
+                <li><a href="#experience" class="nav-link text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-white transition">Expérience</a></li>
+                <li><a href="#contact" class="inline-block px-4 py-2 rounded-full bg-gradient-to-r from-primary to-accent text-white hover:shadow-lg hover:shadow-primary/40 transition">Contact</a></li>
             </ul>
-            <button id="theme-toggle" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800">
-                <span id="theme-icon">🌙</span>
-            </button>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-3">
+                <button id="menu-toggle" aria-label="Menu"
+                        class="md:hidden p-2 rounded-full hover:bg-slate-900/5 dark:hover:bg-white/10 transition text-slate-700 dark:text-slate-200">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white/95 dark:bg-slate-900/95 backdrop-blur border-t border-slate-900/5 dark:border-white/10">
+            <ul class="px-6 py-4 space-y-3 text-sm">
+                <li><a href="#hero" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-primary">Accueil</a></li>
+                <li><a href="#projects" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-primary">Projets</a></li>
+                <li><a href="#services" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-primary">Services</a></li>
+                <li><a href="#skills" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-primary">Compétences</a></li>
+                <li><a href="#experience" class="block py-2 text-slate-600 dark:text-slate-300 hover:text-primary">Expérience</a></li>
+                <li><a href="#contact" class="block py-2 text-primary font-semibold">Contact</a></li>
+            </ul>
         </div>
     </nav>
 
-    <!-- FLASH -->
+    <!-- Flash -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-        <div class="fixed top-16 right-4 z-50 space-y-2">
+        <div class="fixed top-24 right-4 z-50 space-y-2 animate-fade-up">
             {% for category, message in messages %}
-            <div class="px-4 py-2 rounded shadow-lg text-white
-                {% if category == 'error' %}bg-red-500{% else %}bg-green-500{% endif %}">
+            <div class="px-5 py-3 rounded-xl shadow-2xl text-sm font-medium backdrop-blur
+                {% if category == 'error' %}bg-red-500/95 text-white{% else %}bg-emerald-500/95 text-white{% endif %}">
                 {{ message }}
             </div>
             {% endfor %}
@@ -55,15 +120,17 @@
         {% endif %}
     {% endwith %}
 
-    <!-- CONTENU -->
-    <main class="pt-16">
-        {% block content %}{% endblock %}
-    </main>
+    <!-- MAIN -->
+    <main>{% block content %}{% endblock %}</main>
 
     <!-- FOOTER -->
-    <footer class="bg-gray-100 dark:bg-gray-950 py-6 mt-16 text-center text-sm text-gray-600 dark:text-gray-400">
-        <p>&copy; {{ 2026 }} Josué Adagbe — Tous droits réservés.</p>
-        <a href="/admin/login" class="text-xs hover:text-primary mt-2 inline-block">Admin</a>
+    <footer class="border-t border-slate-900/5 dark:border-white/5 py-10 mt-20">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+            <p>&copy; 2026 Josué Adagbe. Tous droits réservés.</p>
+            <div class="flex gap-6">
+                <a href="#hero" class="hover:text-primary transition">Retour en haut</a>
+            </div>
+        </div>
     </footer>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>

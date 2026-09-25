@@ -8,6 +8,8 @@ class Admin(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
+    failed_attempts = db.Column(db.Integer, default=0, nullable=False)
+    locked_until = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
 
     def set_password(self, password):
@@ -15,6 +17,19 @@ class Admin(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    def is_locked(self):
+        return self.locked_until is not None and self.locked_until > datetime.utcnow()
+
+    def register_failed_attempt(self):
+        self.failed_attempts += 1
+        if self.failed_attempts >= 5:
+            from datetime import timedelta
+            self.locked_until = datetime.utcnow() + timedelta(minutes=15)
+
+    def reset_attempts(self):
+        self.failed_attempts = 0
+        self.locked_until = None
 
 
 class Hero(db.Model):
