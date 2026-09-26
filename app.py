@@ -1,16 +1,9 @@
-import os
 from flask import Flask, render_template
 from config import Config
 from extensions import db, migrate, login_manager, csrf
 
 def create_app():
-
-    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    app = Flask(
-    __name__,
-    template_folder=os.path.join(BASE_DIR, "..", "templates"),
-    static_folder=os.path.join(BASE_DIR, "..", "static")
-    )
+    app = Flask(__name__)
     app.config.from_object(Config)
 
     # Init extensions
