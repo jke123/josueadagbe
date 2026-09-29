@@ -164,12 +164,6 @@
                 'Avancé':        'border-purple-500/40 bg-purple-500/10 text-purple-300',
                 'Expert':        'border-amber-500/40 bg-amber-500/10 text-amber-300'
             } %}
-            {% set badge_icons = {
-                'Débutant': '🌱',
-                'Intermédiaire': '⚡',
-                'Avancé': '🚀',
-                'Expert': '🏆'
-            } %}
             {% for skill in skills %}
             <div class="flex items-center justify-between p-5 rounded-2xl bg-gray-900/50 border border-white/5 hover:border-primary/40 transition group">
                 <div>
@@ -179,7 +173,7 @@
                     {% endif %}
                 </div>
                 <span class="text-xs font-semibold px-3 py-1.5 rounded-full border whitespace-nowrap {{ badge_styles.get(skill.level_label, 'border-gray-500/40 bg-gray-500/10 text-gray-300') }}">
-                    {{ badge_icons.get(skill.level_label, '') }} {{ skill.level_label }}
+                    {{ skill.level_label }}
                 </span>
             </div>
             {% endfor %}
