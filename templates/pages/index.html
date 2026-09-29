@@ -42,8 +42,8 @@
         </div>
 
         <!-- Visuel à droite -->
-        <div class="hidden md:flex justify-center items-center animate-float">
-            <div class="relative w-80 h-80">
+        <div class="flex justify-center items-center animate-float mt-10 md:mt-0">
+            <div class="relative w-56 h-56 md:w-80 md:h-80">
                 <div class="absolute inset-0 bg-gradient-to-br from-primary to-accent rounded-3xl rotate-6 opacity-20 blur-xl"></div>
                 <div class="relative w-full h-full bg-slate-50 dark:bg-slate-900 border border-slate-900/5 dark:border-white/10 rounded-3xl flex items-center justify-center overflow-hidden">
                     {% if hero and hero.background_image %}
@@ -152,26 +152,40 @@
 <section id="skills" class="py-24 px-6">
     <div class="max-w-5xl mx-auto">
         <div class="text-center mb-16 reveal">
-            <h2 class="font-sans text-4xl md:text-5xl font-bold mt-3">Compétences</h2>
+            <span class="text-primary font-semibold text-sm uppercase tracking-widest">Savoir-faire</span>
+            <h2 class="font-display text-4xl md:text-5xl font-bold mt-3">Compétences</h2>
         </div>
 
         {% if skills %}
-        <div class="space-y-8 reveal">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 reveal">
+            {% set badge_styles = {
+                'Débutant':      'border-gray-500/40 bg-gray-500/10 text-gray-300',
+                'Intermédiaire': 'border-blue-500/40 bg-blue-500/10 text-blue-300',
+                'Avancé':        'border-purple-500/40 bg-purple-500/10 text-purple-300',
+                'Expert':        'border-amber-500/40 bg-amber-500/10 text-amber-300'
+            } %}
+            {% set badge_icons = {
+                'Débutant': '🌱',
+                'Intermédiaire': '⚡',
+                'Avancé': '🚀',
+                'Expert': '🏆'
+            } %}
             {% for skill in skills %}
-            <div class="group">
-                <div class="flex justify-between mb-2">
-                    <span class="font-medium">{{ skill.name }}</span>
-                    <span class="text-primary font-semibold">{{ skill.level }}%</span>
+            <div class="flex items-center justify-between p-5 rounded-2xl bg-gray-900/50 border border-white/5 hover:border-primary/40 transition group">
+                <div>
+                    <p class="font-medium text-white group-hover:text-primary transition">{{ skill.name }}</p>
+                    {% if skill.category %}
+                    <p class="text-xs text-gray-500 mt-0.5">{{ skill.category }}</p>
+                    {% endif %}
                 </div>
-                <div class="w-full bg-slate-900/5 dark:bg-white/5 rounded-full h-2 overflow-hidden">
-                    <div class="h-2 rounded-full bg-gradient-to-r from-primary to-accent transition-all duration-1000"
-                         style="width: {{ skill.level }}%"></div>
-                </div>
+                <span class="text-xs font-semibold px-3 py-1.5 rounded-full border whitespace-nowrap {{ badge_styles.get(skill.level_label, 'border-gray-500/40 bg-gray-500/10 text-gray-300') }}">
+                    {{ badge_icons.get(skill.level_label, '') }} {{ skill.level_label }}
+                </span>
             </div>
             {% endfor %}
         </div>
         {% else %}
-        <p class="text-center text-slate-400">Aucune compétence pour le moment.</p>
+        <p class="text-center text-gray-500">Aucune compétence pour le moment.</p>
         {% endif %}
     </div>
 </section>

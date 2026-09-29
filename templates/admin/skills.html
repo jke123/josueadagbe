@@ -24,14 +24,19 @@
             <tr class="border-t dark:border-gray-700">
                 <td class="p-3 font-medium">{{ s.name }}</td>
                 <td class="p-3">{{ s.category or '—' }}</td>
-                <td class="p-3">
-                    <div class="flex items-center gap-2">
-                        <div class="w-32 bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                            <div class="bg-primary h-2 rounded-full" style="width: {{ s.level }}%"></div>
-                        </div>
-                        <span>{{ s.level }}%</span>
-                    </div>
-                </td>
+ 
+            <td class="p-3">
+                {% set colors = {
+                    'Débutant': 'bg-gray-200 text-gray-800',
+                    'Intermédiaire': 'bg-blue-100 text-blue-800',
+                    'Avancé': 'bg-purple-100 text-purple-800',
+                    'Expert': 'bg-amber-100 text-amber-800'
+                } %}
+                <span class="text-xs font-semibold px-3 py-1 rounded-full {{ colors.get(s.level_label, 'bg-gray-100 text-gray-800') }}">
+                    {{ s.level_label }}
+                </span>
+            </td>
+
                 <td class="p-3 text-right space-x-2">
                     <a href="{{ url_for('admin.skill_edit', id=s.id) }}" class="text-primary hover:underline">Modifier</a>
                     <form method="POST" action="{{ url_for('admin.skill_delete', id=s.id) }}"

@@ -71,7 +71,7 @@ class Skill(db.Model):
     __tablename__ = "skills"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
-    level = db.Column(db.Integer, default=0)
+    level_label = db.Column(db.String(20), default="Intermédiaire")  # Débutant / Intermédiaire / Avancé / Expert
     category = db.Column(db.String(80))
     position = db.Column(db.Integer, default=0)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)

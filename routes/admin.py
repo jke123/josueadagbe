@@ -272,9 +272,9 @@ def skill_new():
     if request.method == "POST":
         skill = Skill(
             name=request.form.get("name"),
-            level=safe_int(request.form.get("level"), 0),
+            level_label=request.form.get("level_label"),
             category=request.form.get("category"),
-            position=safe_int(request.form.get("position"), 0),
+            position=int(request.form.get("position") or 0),
         )
         db.session.add(skill)
         db.session.commit()
@@ -289,9 +289,9 @@ def skill_edit(id):
     skill = Skill.query.get_or_404(id)
     if request.method == "POST":
         skill.name = request.form.get("name")
-        skill.level = safe_int(request.form.get("level"), 0)
+        skill.level_label = request.form.get("level_label")
         skill.category = request.form.get("category")
-        skill.position = safe_int(request.form.get("position"), 0)
+        skill.position = int(request.form.get("position") or 0)
         db.session.commit()
         flash("Compétence mise à jour.", "success")
         return redirect(url_for("admin.skills_list"))
