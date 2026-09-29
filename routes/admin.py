@@ -7,14 +7,13 @@ from cloudinary_helper import upload_image
 from datetime import datetime
 import re
 
+admin_bp = Blueprint("admin", __name__, template_folder="../templates/admin")
+
 @admin_bp.app_context_processor
 def inject_unread_count():
     return {
         "unread_count": Message.query.filter_by(status="unread").count()
     }
-
-admin_bp = Blueprint("admin", __name__, template_folder="../templates/admin")
-
 
 def slugify(text):
     text = (text or "").strip().lower()
