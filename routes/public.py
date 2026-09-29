@@ -18,7 +18,7 @@ def index():
         skills=skills, experiences=experiences, contact=contact,
     )
 
-@public_bp.route("/contact", methods=["POST"])
+@public_bp.route("/contact", methods=['GET', "POST"])
 def contact_submit():
     name = request.form.get("name")
     email = request.form.get("email")
@@ -32,7 +32,11 @@ def contact_submit():
     msg = Message(name=name, email=email, subject=subject, message=message)
     db.session.add(msg)
     db.session.commit()
-    flash("Message envoyé avec succès !", "success")
+
+    from mailer import send_admin_notification
+    send_admin_notification(name, email, subject, message)
+
+    flash("Message envoye avec succes.", "success")
     return redirect(url_for("public.index") + "#contact")
 
 

@@ -18,3 +18,12 @@ class Config:
     
     WTF_CSRF_ENABLED = True
     MAX_CONTENT_LENGTH = 5 * 1024 * 1024  # 5 MB
+    # SMTP
+    SMTP_HOST = os.getenv("SMTP_HOST", "smtp.gmail.com")
+    SMTP_PORT = int(os.getenv("SMTP_PORT", "587"))
+    SMTP_USER = os.getenv("SMTP_USER")
+    SMTP_PASSWORD = os.getenv("SMTP_PASSWORD")
+    
+    MAIL_FROM = os.getenv("MAIL_FROM", SMTP_USER)
+    ADMIN_NOTIFY_EMAIL = os.getenv("ADMIN_NOTIFY_EMAIL")
+    SITE_URL = os.getenv("SITE_URL", "http://127.0.0.1:5000")

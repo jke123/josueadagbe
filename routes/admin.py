@@ -7,6 +7,12 @@ from cloudinary_helper import upload_image
 from datetime import datetime
 import re
 
+@admin_bp.app_context_processor
+def inject_unread_count():
+    return {
+        "unread_count": Message.query.filter_by(status="unread").count()
+    }
+
 admin_bp = Blueprint("admin", __name__, template_folder="../templates/admin")
 
 
@@ -421,4 +427,37 @@ def message_delete(id):
     db.session.delete(msg)
     db.session.commit()
     flash("Message supprimé.", "success")
+    return redirect(url_for("admin.messages_list"))
+    
+ 
+@admin_bp.route("/messages/<int:id>/reply", methods=["POST"])
+@login_required
+def message_reply(id):
+    from mailer import send_reply_email
+    from datetime import datetime
+
+    msg = Message.query.get_or_404(id)
+    reply_text = request.form.get("reply_text", "").strip()
+
+    if not reply_text:
+        flash("La reponse ne peut pas etre vide.", "error")
+        return redirect(url_for("admin.messages_list"))
+
+    success = send_reply_email(
+        to_email=msg.email,
+        to_name=msg.name,
+        original_subject=msg.subject,
+        original_message=msg.message,
+        reply_text=reply_text,
+    )
+
+    if success:
+        msg.reply_text = reply_text
+        msg.replied_at = datetime.utcnow()
+        msg.status = "replied"
+        db.session.commit()
+        flash(f"Reponse envoyee a {msg.email}.", "success")
+    else:
+        flash("Erreur lors de l'envoi de l'email.", "error")
+
     return redirect(url_for("admin.messages_list"))

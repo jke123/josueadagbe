@@ -111,4 +111,6 @@ class Message(db.Model):
     subject = db.Column(db.String(200))
     message = db.Column(db.Text, nullable=False)
     status = db.Column(db.String(20), default="unread")
+    reply_text = db.Column(db.Text, nullable=True)
+    replied_at = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
